@@ -24,6 +24,7 @@ A la fin de la partie les points sont répartis de la manière suivante :
 -	1 point pour le joueur qui a le settebello (7 de deniers) ;
 -	1 point pour le joueur qui a le plus de cartes de deniers ; 
 -	1 point pour chaque "scopa" effectuée.
+- Il n'y a pas de gagnant si 2 (ou plus) joueurs sont à égalité (ont le même nombre de points)
 Le gagnant est celui qui a le plus de points.
 
 
