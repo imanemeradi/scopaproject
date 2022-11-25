@@ -9,31 +9,26 @@ import fr.pantheonsorbonne.miage.game.PlayCard;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.event.CaretListener;
+
 
 public class LocalGame  {
  
-
-
-
-
-    
-
     public static Collection<Card> cardOnTheTable = new ArrayList<>();
     static Collection <Player> players= new ArrayList<>();
     static Map <String,Integer> finalScore = new HashMap<>();
-    
-    
-   
 
-public static void main(String[] args) {
+
+public static void play(){
 
     Player player1 = new Player("SARAH");
     Player player2 = new Player("IMANE");
-    Player player3 = new Player("JOUEUR3");
+    Player player3 = new Player("JOUEUR 3");
 
     PlayCard p = new PlayCard(); // Objet qui va nous servir a utiliser les methodes de la classe playCard pour les joueurs
    
@@ -57,7 +52,12 @@ public static void main(String[] args) {
 
     }
 
+
+    do{
     putFourCardOnTheTable();
+    }
+    while(haveTreeCardSameOnTheTable());
+    
     
 
 while (!Deck.deck.isEmpty()){
@@ -104,8 +104,10 @@ while (!Deck.deck.isEmpty()){
 }
 
 // Maintenant , il y'a plus de carte dans la pioche, chaque joueur joue donc à tour de role jusqu'a qu'il n'est plus de carte
-System.out.println("Plus de carte dans la piocheHGEFGEGFEHGFHEGFHEGFEHFGEHFGEHFGEHFGHE");
+System.out.println("Plus de carte dans la pioche");
 
+
+String lastPlayerWithPair="";
 for(int i=0; i<Player.HAND_SIZE;i++){
     for (Player player: players){
     
@@ -121,9 +123,11 @@ for(int i=0; i<Player.HAND_SIZE;i++){
        
        else if(p.getPair(player)){
         System.out.println(player.getName() +" a fait une  paire. " );
+         lastPlayerWithPair= player.getName();
         if (cardOnTheTable.isEmpty()){
             System.out.println(player.getName()+ " a fait une scopa!");
             player.haveNewPoint();
+            
            
         }
 
@@ -133,12 +137,29 @@ for(int i=0; i<Player.HAND_SIZE;i++){
         p.putACardOnTheTable(player);
        }
     
-      
-     
+       System.out.println("Carte stocké de " + player.getName() +player.getStoredCard());
+       System.out.println("Point de scopa " + player.getFinalScore());
+       System.out.println("Voici les cartes sur la table " +cardOnTheTable);
 }
 
-System.out.println("Voici les cartes sur la table " +cardOnTheTable);
 
+
+
+}
+
+System.out.println("Le dernier joueur a avoir fait une paire est "+ lastPlayerWithPair);
+
+
+// Il va récuperer les cartes sur la table
+if(!cardOnTheTable.isEmpty()){
+    for(Player player : players){
+        if (player.getName().equals(lastPlayerWithPair)){
+            for(Card card : cardOnTheTable){
+                player.getStoredCard().add(card);
+            }
+        System.out.println(player.getName() + player.getStoredCard());
+        }
+    }
 }
 
 
@@ -174,9 +195,7 @@ System.out.println("Voici les cartes sur la table " +cardOnTheTable);
 
 
     // La partie est terminée, on rappelle tous les joueurs pour compter les points
-    players.add(player1);
-    players.add(player2);
-    players.add(player3);
+ 
 
     compareCountCard();
     compareCountCardDeniers();
@@ -185,37 +204,18 @@ System.out.println("Voici les cartes sur la table " +cardOnTheTable);
     announceTheWinner();
     
 
-
-
-    
-
-
-
-
-
-
-
-
-
+    }
     
     
+   
+
+public static void main(String[] args) {
+    play();
+
 }
 
 
 
-
-public static void play(){
-
-    
-
-
-
-
-
-
-
-
-}
 
 
 
@@ -235,8 +235,7 @@ public static void distribuateCardToPlayer(Player joueur ){
         Card c = giveNewCard();
         joueur.getHand().add(c);
      }
-   
-}
+   }
 
 
 public static void displayPlayerHand(Player player){
@@ -245,7 +244,31 @@ public static void displayPlayerHand(Player player){
     }
 
 
+public static boolean haveTreeCardSameOnTheTable(){
+    for (Card card1 : cardOnTheTable){
+        int count =0;
+        for (Card card2: cardOnTheTable){
+            if(card1.equals(card2)){
+                count ++;
+            }
+         
+         }
+         if(count==3){
+            for(Card card : cardOnTheTable){
+            Deck.deck.add(card);
+            
+        }
+        Collections.shuffle(Deck.deck);
+        cardOnTheTable.clear(); // On supprime toutes les cartes de la table
+        System.out.println("Il y'a 3 cartes pareilles sur la table. On va reposer des nouvelles cartes");
+        return true;
+    }
 
+
+}
+return false;
+
+}
 
 public static void putFourCardOnTheTable(){
   
@@ -253,8 +276,13 @@ public static void putFourCardOnTheTable(){
         cardOnTheTable.add(Deck.deck.poll());
     }
     System.out.println( "Voici les cartes sur la table "+cardOnTheTable);
-
+    
 }
+           
+        
+
+
+
 
 public static int countCardDeniers(Player player){
     int countCardDeniers= 0;
@@ -287,9 +315,11 @@ public static void compareCountCardDeniers(){
     for (Map.Entry<String, Integer> entry : stockCountDeniers.entrySet()){
         if(entry.getValue()==maxCardDeniers){
             String name= entry.getKey(); // on stock le nom du joueur qui a la + de carte de denier
+            System.out.println( name + " a le max de deniers " + maxCardDeniers);
             for ( Player player : players){
-                if (player.getName()==name){
+                if (player.getName().equals(name)){
                     player.haveNewPoint();
+                    break;
                 }
             }
 
@@ -310,24 +340,26 @@ public static int countCard(Player player){
 public static void compareCountCard(){
 
     // Construction d'une map avec tous les nb de cartess des joueurs
-    Map<String,Integer> stockCountDeniers = new HashMap<>();
+    Map<String,Integer> stockCountCard = new HashMap<>();
     for ( Player player : players){
-       stockCountDeniers.put(player.getName(),countCard(player));
+       stockCountCard.put(player.getName(),countCard(player));
     }
     
     int maxCard=0;
-    for( int countCard : stockCountDeniers.values()){
+    for( int countCard : stockCountCard.values()){
         if ( countCard>maxCard){
             maxCard=countCard; 
         }
     }
 
-    for (Map.Entry<String, Integer> entry : stockCountDeniers.entrySet()){
+    for (Map.Entry<String, Integer> entry : stockCountCard.entrySet()){
         if(entry.getValue()==maxCard){
             String name= entry.getKey(); // on stock le nom du joueur qui a la + de carte 
             for ( Player player : players){
-                if (player.getName()==name){
+                if (player.getName().equals(name)){
                     player.haveNewPoint();
+                    System.out.println( name + " a le max de carte " + maxCard);
+                    break;
                 }
             }
         }
@@ -357,7 +389,9 @@ public static boolean haveSeptDeDeniers(Player player) {
 public static void pointForSeptDeDeniers(){
     for(Player player : players){
         if ( haveSeptDeDeniers(player)){
-                   player.haveNewPoint();
+                System.out.println( player.getName() + " a le sept deniers");
+                player.haveNewPoint();
+                break;
                 }
             }
         }
