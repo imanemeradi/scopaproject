@@ -19,9 +19,9 @@ public class PlayCard {
 
 
 
-/** Création d'un objet Card SEPT de DENIERS */
 
-Card septDeDeniers = new Card(CardFigure.DENIERS,CardValue.SEPT);
+
+
 
 
 
@@ -207,40 +207,63 @@ public boolean getPair(Player player) {
      * @param player applique le méthode au joueur
      */
 
-    
-    
-    public void putACardOnTheTable(Player player){
-        
+
+    public boolean putAClassicCard(Player player){
         for(Card card : player.getHand()){ 
             if (card.getFigure()!=CardFigure.DENIERS){  // on pose une carte qui n'est pas de deniers par stratégie
                 System.out.println(player.getName() + " a posé la carte " + card + " sur la table ");
-                
-               
                 LocalGame.cardOnTheTable.add(card);
-                
                 player.getHand().remove(card);
-                break;
+                return true;
                 
 
             }
         }
-       
-        if (player.getHand().size()==3){ // Cas ou le joueur n'avait que des cartes de deniers, il n'a pas poser de carte
-            for (Card card: player.getHand()){
-                if (card.getValue()!=CardValue.SEPT){
-                    System.out.println(player.getName() + " a posé la carte " + card + " sur la table");
-                    LocalGame.cardOnTheTable.add(card); // il pose alors une carte de denier mais pas le sept afin de le garder pour en faire une paire ensuite
-                    player.getHand().remove(card);
-                    break;
-                }
-            }
-
-        }
+        return false;
         
-            
+
     }
 
-}
+    public boolean putACardOfDeniers(Player player){
+        for (Card card: player.getHand()){
+            if (card.getValue()!=CardValue.SEPT){
+                System.out.println(player.getName() + " a posé la carte " + card + " sur la table");
+                LocalGame.cardOnTheTable.add(card); // il pose alors une carte de denier mais pas le sept afin de le garder pour en faire une paire ensuite
+                player.getHand().remove(card);
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public void putACardOfSeptDeniers(Player player){
+        for(Card card : player.getHand()){
+            System.out.println(player.getName() + " a posé la carte " + card + " sur la table");
+            LocalGame.cardOnTheTable.add(card); 
+            player.getHand().remove(card);
+            
+
+        }
+
+    }
+    
+    
+    public void putACardOnTheTable(Player player){
+        boolean putACard = putAClassicCard(player);
+        if(!putACard){
+            putACard = putACardOfDeniers(player);
+            if(!putACard){
+                putACardOfSeptDeniers(player);
+            }
+        }
+    }
+       
+       
+       
+       
+       
+       
         
         
 
