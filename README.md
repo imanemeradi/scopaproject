@@ -32,7 +32,8 @@ A la fin de la partie les points sont répartis de la manière suivante :
 
 Un exemple de jeu supportant le réseau
 
-* LocalGame la version du jeu supportant le jeu en local
+* LocalGame qui lance le jeu
+* LocalGameEngine qui supporte les méthodes du jeu local
 * WarGameNetorkPlayer le joueur distant en cas de partie réseau
 * WarGameNetworkEngine la version du jeu supportant le réseau
 
