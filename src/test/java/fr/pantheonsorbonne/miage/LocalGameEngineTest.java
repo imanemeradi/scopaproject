@@ -184,6 +184,21 @@ public class LocalGameEngineTest {
 
     }
     
+    @Test
+    public void haveSeptDeDeniersTest(){
+        Player p = new Player("saeah");
+        LocalGameEngine l = new LocalGameEngine();
+        Card card1 = new Card (CardFigure.BATON, CardValue.SEPT);
+        Card card2 = new Card (CardFigure.DENIERS, CardValue.TROIS);
+        List<Card> storedCard = new ArrayList<>();
+        storedCard.add(card2);
+        storedCard.add(card1);
+        p.setStoredCard(storedCard);
+        assertFalse(l.haveSeptDeDeniers(p));
+        
+
+    }
+    
 }
 
 
