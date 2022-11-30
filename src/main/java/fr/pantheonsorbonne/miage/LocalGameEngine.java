@@ -403,15 +403,16 @@ public boolean getPair(Player player) {
 
     }
 
-    public void putACardOfSeptDeniers(Player player){
+    public boolean putACardOfSeptDeniers(Player player){
         for(Card card : player.getHand()){
             System.out.println(player.getName() + " a posé la carte " + card + " sur la table");
             cardOnTheTable.add(card); 
             player.getHand().remove(card);
-            break;
+            return true;
             
 
         }
+       return false
 
     }
     
