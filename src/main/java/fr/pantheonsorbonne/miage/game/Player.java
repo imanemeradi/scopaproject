@@ -44,6 +44,10 @@ public class Player{
     public int getFinalScore(){
         return this.finalScore;
     }
+    
+     public void setFinalScore(int finalScore){
+        this.finalScore=finalScore;
+    }
 
 
     
