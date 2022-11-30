@@ -15,31 +15,127 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
 public class LocalGameEngineTest {
+    
     @Test
     public void havePairWithSeptDenierTest(){
         LocalGameEngine l = new LocalGameEngine();
-        Player p =  new Player("ggg");
-        Card card1 = new Card (CardFigure.DENIERS, CardValue.SEPT);
-        Card card2 = new Card (CardFigure.EPEE, CardValue.SEPT);
+        Player p =  new Player("sarah");
+        
+        Card card1 = new Card (CardFigure.EPEE, CardValue.SEPT);
+        Card card2 = new Card (CardFigure.DENIERS, CardValue.SEPT);
         Card card3 = new Card (CardFigure.BATON, CardValue.QUATRE);
+        
         Card card4 = new Card (CardFigure.BATON, CardValue.TROIS);
+        Card card5 = new Card (CardFigure.COUPE, CardValue.QUATRE);
+        Card card6 = new Card (CardFigure.BATON, CardValue.SEPT);
+        Card card7 = new Card (CardFigure.DENIERS, CardValue.DEUX);
+        
+        List<Card> hand= new ArrayList<>();
+        //Collection<Card> cardOnTheTable= new ArrayList<>();
+        hand.add(card2);
+        hand.add(card1);
+        hand.add(card3);
+        p.setHand(hand);
+        l.cardOnTheTable.add(card4);
+        l.cardOnTheTable.add(card5);
+        l.cardOnTheTable.add(card6);
+        l.cardOnTheTable.add(card7);
+        assertTrue(l.havePairWithSeptDeniers(p));
+        assertFalse(p.getHand().contains(card2));
+        assertFalse(l.cardOnTheTable.contains(card6));
+        assert(p.getStoredCard().contains(card2));
+        assert(p.getStoredCard().contains(card6));
+
+    }
+
+    @Test
+    public void havePairWithtDenierTest(){
+        LocalGameEngine l = new LocalGameEngine();
+        Player p =  new Player("sarah");
+        Card card1 = new Card (CardFigure.COUPE, CardValue.SEPT);
+        Card card2 = new Card (CardFigure.BATON, CardValue.QUATRE);
+        Card card3 = new Card (CardFigure.DENIERS, CardValue.TROIS);
+        
+        Card card4 = new Card (CardFigure.COUPE, CardValue.QUATRE);
+        Card card5 = new Card (CardFigure.BATON, CardValue.TROIS);
+        Card card6 = new Card (CardFigure.BATON, CardValue.CINQ);
+        Card card7 = new Card (CardFigure.DENIERS, CardValue.DEUX);
         List<Card> hand= new ArrayList<>();
         //Collection<Card> cardOnTheTable= new ArrayList<>();
         hand.add(card1);
         hand.add(card2);
         hand.add(card3);
         p.setHand(hand);
-        l.cardOnTheTable.add(card1);
-        l.cardOnTheTable.add(card2);
-        l.cardOnTheTable.add(card3);
         l.cardOnTheTable.add(card4);
-        assertTrue(l.havePairWithSeptDeniers(p));
+        l.cardOnTheTable.add(card5);
+        l.cardOnTheTable.add(card6);
+        l.cardOnTheTable.add(card7);
+        assertTrue(l.havePairWithDeniers(p));
+        assertFalse(p.getHand().contains(card3));
+        assertFalse(l.cardOnTheTable.contains(card5));
+        assert(p.getStoredCard().contains(card3));
+        assert(p.getStoredCard().contains(card5));
+
     }
+ @Test
+    public void haveClassicPairTest(){
+        LocalGameEngine l = new LocalGameEngine();
+        Player p =  new Player("sarah");
+        Card card1 = new Card (CardFigure.COUPE, CardValue.SEPT);
+        Card card2 = new Card (CardFigure.BATON, CardValue.QUATRE);
+        Card card3 = new Card (CardFigure.BATON, CardValue.TROIS);
+        
+        Card card4 = new Card (CardFigure.COUPE, CardValue.QUATRE);
+        Card card5 = new Card (CardFigure.EPEE, CardValue.SIX);
+        Card card6 = new Card (CardFigure.BATON, CardValue.CINQ);
+        Card card7 = new Card (CardFigure.DENIERS, CardValue.DEUX);
+        List<Card> hand= new ArrayList<>();
+        //Collection<Card> cardOnTheTable= new ArrayList<>();
+        hand.add(card1);
+        hand.add(card2);
+        hand.add(card3);
+        p.setHand(hand);
+        l.cardOnTheTable.add(card4);
+        l.cardOnTheTable.add(card5);
+        l.cardOnTheTable.add(card6);
+        l.cardOnTheTable.add(card7);
+        assertTrue(l.haveClassicPair(p));
+        assertFalse(p.getHand().contains(card2));
+        assertFalse(l.cardOnTheTable.contains(card4));
+        assert(p.getStoredCard().contains(card2));
+        assert(p.getStoredCard().contains(card4));
+
+    }
+
+@Test
+
+// Pour la condition cardOnthetable.size=2 
+    public void haveClassicPairTest2(){
+        LocalGameEngine l = new LocalGameEngine();
+        Player p =  new Player("sarah");
+        Card card1 = new Card (CardFigure.COUPE, CardValue.SEPT);
+        Card card2 = new Card (CardFigure.BATON, CardValue.QUATRE);
+        Card card3 = new Card (CardFigure.BATON, CardValue.TROIS);
+        Card card4 = new Card (CardFigure.COUPE, CardValue.QUATRE);
+        Card card5 = new Card (CardFigure.EPEE, CardValue.SIX);
+        List<Card> hand= new ArrayList<>();
+        //Collection<Card> cardOnTheTable= new ArrayList<>();
+        hand.add(card1);
+        hand.add(card2);
+        hand.add(card3);
+        p.setHand(hand);
+        l.cardOnTheTable.add(card4);
+        l.cardOnTheTable.add(card5);
+        assertFalse(l.haveClassicPair(p));
+
+    }
+
+   
 
     @Test
     public void putAClassicCardTest(){
        
-        Player p = new Player("bdegey");
+        Player p = new Player("imane");
         LocalGameEngine l = new LocalGameEngine();
         Card card1 = new Card (CardFigure.BATON, CardValue.SEPT);
         Card card2 = new Card (CardFigure.DENIERS, CardValue.TROIS);
@@ -55,9 +151,43 @@ public class LocalGameEngineTest {
     }
     @Test
     public void putACardOfSeptDeniersTest(){
+        Player p = new Player("sarah");
+        LocalGameEngine l = new LocalGameEngine();
+        Card card1 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+        List<Card> hand= new ArrayList<>();
+        hand.add(card1);
+        p.setHand(hand);
+        assertTrue(l.putACardOfSeptDeniers(p));
+        assert(l.cardOnTheTable.contains(card1));
+        assertFalse(p.getHand().contains(card1));
+
+
+
+    }
+    @Test
+    public void putACardOfDeniersTest(){
+        Player p = new Player("imane");
+        LocalGameEngine l = new LocalGameEngine();
+        Card card1 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+        Card card2 = new Card (CardFigure.DENIERS, CardValue.TROIS);
+        List<Card> hand= new ArrayList<>();
+        hand.add(card1);
+        hand.add(card2);
+        p.setHand(hand);
+        assertTrue(l.putACardOfDeniers(p));
+        assert(l.cardOnTheTable.contains(card2));
+        assertFalse(p.getHand().contains(card2));
+
+
+
     }
     
 }
+
+
+
+
+
 
 
 
