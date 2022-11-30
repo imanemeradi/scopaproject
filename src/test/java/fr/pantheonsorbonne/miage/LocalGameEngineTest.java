@@ -230,23 +230,31 @@ public class LocalGameEngineTest {
 
     }
 
-    /** 
+    
     @Test
     public void pointForSeptDeDeniersTest(){
-        Player p = new Player("imane");
+        Player p1 = new Player("imane");
+        Player p2= new Player("sarah");
         LocalGameEngine l = new LocalGameEngine();
+        l.players.add(p1);
+        l.players.add(p2);
         Card card1 = new Card (CardFigure.DENIERS, CardValue.SEPT);
         Card card2 = new Card (CardFigure.DENIERS, CardValue.TROIS);
-        List<Card> storedCard = new ArrayList<>();
-        storedCard.add(card2);
-        storedCard.add(card1);
-        p.setStoredCard(storedCard);
+        Card card3 = new Card (CardFigure.DENIERS, CardValue.QUATRE);
+        Card card4 = new Card (CardFigure.EPEE, CardValue.TROIS);
+        List<Card> storedCardP1 = new ArrayList<>();
+        List<Card> storedCardP2 = new ArrayList<>();
+        storedCardP1.add(card2);
+        storedCardP1.add(card1);
+        storedCardP2.add(card3);
+        storedCardP2.add(card4);
+        p1.setStoredCard(storedCardP1);
+        p2.setStoredCard(storedCardP2);
         l.pointForSeptDeDeniers();
-        //p.haveNewPoint();
-        assertEquals(p.getFinalScore(), 1);
+        assertEquals(p1.getFinalScore(), 1);
         
     }
-    **/
+    
 
     @Test
     public void countCardTest(){
@@ -263,7 +271,43 @@ public class LocalGameEngineTest {
     }
 
     @Test
-    public void compareCountCardDeniers(){
+
+public void compareCountCardTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Player p1= new Player("sarah");
+    Player p2 = new Player("imane");
+    List<Card> storedCardP1 = new ArrayList<>();
+    List<Card> storedCardP2 = new ArrayList<>();
+    Card card1 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+    Card card2 = new Card (CardFigure.EPEE, CardValue.TROIS);
+    Card card3 = new Card (CardFigure.BATON, CardValue.TROIS);
+    Card card4 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+    Card card5 = new Card (CardFigure.DENIERS, CardValue.TROIS);
+    Card card6 = new Card (CardFigure.DENIERS, CardValue.QUATRE);
+    Card card7 = new Card (CardFigure.EPEE, CardValue.CINQ);
+    storedCardP1.add(card2);
+    storedCardP1.add(card1);
+    storedCardP1.add(card3);
+    storedCardP2.add(card4);
+    storedCardP2.add(card5);
+    storedCardP2.add(card6);
+    storedCardP2.add(card7);
+    p1.setStoredCard(storedCardP1);
+    p2.setStoredCard(storedCardP2);
+    l.players.add(p1);
+    l.players.add(p2);
+    l.compareCountCard();
+    assertEquals(l.stockCountCard.get(p1.getName()),3);
+    assertEquals(l.stockCountCard.get(p2.getName()),4);
+    assertEquals(p2.getFinalScore(),1);
+    
+
+}
+
+
+
+    @Test
+    public void countCardDeniersTest(){
         Player p = new Player("imane");
         LocalGameEngine l = new LocalGameEngine();
         Card card1 = new Card (CardFigure.DENIERS, CardValue.SEPT);
@@ -277,7 +321,98 @@ public class LocalGameEngineTest {
         assertEquals(l.countCardDeniers(p), 2);
 
     }
+
+    
+    
+
+
+
+@Test
+
+public void compareCountCardDeniersTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Player p1= new Player("sarah");
+    Player p2 = new Player("imane");
+    List<Card> storedCardP1 = new ArrayList<>();
+    List<Card> storedCardP2 = new ArrayList<>();
+    Card card1 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+    Card card2 = new Card (CardFigure.EPEE, CardValue.TROIS);
+    Card card3 = new Card (CardFigure.BATON, CardValue.TROIS);
+    Card card4 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+    Card card5 = new Card (CardFigure.DENIERS, CardValue.TROIS);
+    Card card6 = new Card (CardFigure.DENIERS, CardValue.QUATRE);
+    Card card7 = new Card (CardFigure.EPEE, CardValue.CINQ);
+    storedCardP1.add(card2);
+    storedCardP1.add(card1);
+    storedCardP1.add(card3);
+    storedCardP2.add(card4);
+    storedCardP2.add(card5);
+    storedCardP2.add(card6);
+    storedCardP2.add(card7);
+    p1.setStoredCard(storedCardP1);
+    p2.setStoredCard(storedCardP2);
+    l.players.add(p1);
+    l.players.add(p2);
+    l.compareCountCardDeniers();
+    assertEquals(l.stockCountDeniers.get(p1.getName()),1);
+    assertEquals(l.stockCountDeniers.get(p2.getName()),3);
+    assertEquals(p2.getFinalScore(),1);
+    
+
+}
   
+
+
+@Test
+
+public void displayFinalScoreTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Player p1= new Player("sarah");
+    Player p2 = new Player("imane");
+    p1.setFinalScore(3);
+    p2.setFinalScore(4);
+    l.players.add(p1);
+    l.players.add(p2);
+    l.displayFinalScorel();
+    assertEquals(l.finalScore.get(p2.getName()),4);
+    assertEquals(l.finalScore.get(p1.getName()),3);
+
+}
+
+@Test
+ public void announceTheWinnerTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Player p1= new Player("sarah");
+    Player p2 = new Player("imane");
+    p1.setFinalScore(3);
+    p2.setFinalScore(4);
+    l.players.add(p1);
+    l.players.add(p2);
+    l.displayFinalScorel();
+    assertEquals(l.announceTheWinner(), "imane");
+   
+    
+ }
+
+ @Test 
+ public void noWinnerTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Player p1= new Player("sarah");
+    Player p2 = new Player("imane");
+    p1.setFinalScore(3);
+    p2.setFinalScore(3);
+    l.players.add(p1);
+    l.players.add(p2);
+    l.displayFinalScorel();
+    assertEquals(l.announceTheWinner(), "egalité");
+   
+
+ }
+
+
+
+
+
 }
 
 
