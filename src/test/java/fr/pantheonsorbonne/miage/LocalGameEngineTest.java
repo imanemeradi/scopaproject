@@ -132,23 +132,25 @@ public class LocalGameEngineTest {
 
    
 
-    @Test
+   @Test
     public void putAClassicCardTest(){
        
         Player p = new Player("imane");
         LocalGameEngine l = new LocalGameEngine();
-        Card card1 = new Card (CardFigure.BATON, CardValue.SEPT);
-        Card card2 = new Card (CardFigure.DENIERS, CardValue.TROIS);
-        Card card3 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+        Card card1 = new Card (CardFigure.DENIERS, CardValue.TROIS);
+        Card card2 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+        Card card3 = new Card (CardFigure.BATON, CardValue.SEPT);
+    
         List<Card> hand= new ArrayList<>();
         hand.add(card1);
         hand.add(card2);
         hand.add(card3);
         p.setHand(hand);
         assertTrue(l.putAClassicCard(p));
-        assert(l.cardOnTheTable.contains(card1));
-        assertFalse(p.getHand().contains(card1));
+        assert(l.cardOnTheTable.contains(card3));
+        assertFalse(p.getHand().contains(card3));
     }
+
     @Test
     public void putACardOfSeptDeniersTest(){
         Player p = new Player("sarah");
