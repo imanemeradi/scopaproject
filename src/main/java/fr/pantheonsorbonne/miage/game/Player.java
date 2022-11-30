@@ -30,6 +30,10 @@ public class Player{
         return this.storedCard;
     }
     
+    public void setStoredCard(List<Card> cardStored){
+        this.storedCard=cardStored;
+    }
+    
   
 
     public int haveNewPoint(){
