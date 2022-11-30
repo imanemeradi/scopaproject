@@ -563,7 +563,7 @@ public boolean getPair(Player player) {
     }
     
     
-    public  void announceTheWinner(){
+  public String announceTheWinner(){
         int maxScore=0;
         String name="";
         for (Map.Entry<String, Integer> finalScoEntry :finalScore.entrySet()) { // on va stocker le nom et le score du meilleur joueur
@@ -579,14 +579,16 @@ public boolean getPair(Player player) {
             if(finalScoEntry.getValue()==maxScore){ // Cas ou deux personnes sont égalités
                 System.out.println("Il n'y a pas de gagnant pour cette partie");
                 gagnant = false;
-                break;
+                return "egalité";
+                
             }
          }
         if(gagnant){
             System.out.println (name+ " remporte la partie avec un score de "+ maxScore +" . " + "Bravo!");
+           
         }
     
-    
+    return name;
     
     
     }
