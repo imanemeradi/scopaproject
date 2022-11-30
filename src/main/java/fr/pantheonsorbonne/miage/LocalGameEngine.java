@@ -20,6 +20,9 @@ public class LocalGameEngine {
     protected Collection<Card> cardOnTheTable = new ArrayList<>();
     final Map <String,Integer> finalScore = new HashMap<>();
     protected final Collection <Player> players= new ArrayList<>();
+    Map<String,Integer> stockCountDeniers = new HashMap<>();
+    Map<String,Integer> stockCountCard = new HashMap<>();
+
     
 
 
@@ -38,7 +41,7 @@ public void play(){
     do{
     putFourCardOnTheTable();
     }
-    while(haveThreeCardSameOnTheTable());
+    while(haveTreeCardSameOnTheTable());
     
     
 
@@ -192,7 +195,7 @@ public void putFourCardOnTheTable(){
     
 }
 
-public boolean haveThreeCardSameOnTheTable(){
+public boolean haveTreeCardSameOnTheTable(){
     for (Card card1 : cardOnTheTable){
         int count =0;
         for (Card card2: cardOnTheTable){
@@ -412,7 +415,7 @@ public boolean getPair(Player player) {
             
 
         }
-       return false;
+    return false;
 
     }
     
@@ -444,7 +447,7 @@ public boolean getPair(Player player) {
     public void compareCountCardDeniers(){
     
         // Construction d'une map avec tous les nb de cartes de deniers des joueurs
-        Map<String,Integer> stockCountDeniers = new HashMap<>();
+        //Map<String,Integer> stockCountDeniers = new HashMap<>();
         for ( Player player : players){
            stockCountDeniers.put(player.getName(),countCardDeniers(player));
         }
@@ -483,8 +486,8 @@ public boolean getPair(Player player) {
     
     public void compareCountCard(){
     
-        // Construction d'une map avec tous les nb de cartess des joueurs
-        Map<String,Integer> stockCountCard = new HashMap<>();
+        // Construction d'une map avec tous les nb de cartes des joueurs
+        //Map<String,Integer> stockCountCard = new HashMap<>();
         for ( Player player : players){
            stockCountCard.put(player.getName(),countCard(player));
         }
@@ -503,7 +506,7 @@ public boolean getPair(Player player) {
                     if (player.getName().equals(name)){
                         player.haveNewPoint();
                         System.out.println( name + " a le max de carte " + maxCard);
-                        break;
+                        
                     }
                 }
             }
@@ -532,7 +535,7 @@ public boolean getPair(Player player) {
     
     public void pointForSeptDeDeniers(){
         for(Player player : players){
-            if ( haveSeptDeDeniers(player)){
+            if (haveSeptDeDeniers(player)){
                     System.out.println( player.getName() + " a le sept deniers");
                     player.haveNewPoint();
                     break;
@@ -563,7 +566,7 @@ public boolean getPair(Player player) {
     }
     
     
-  public String announceTheWinner(){
+    public String announceTheWinner(){
         int maxScore=0;
         String name="";
         for (Map.Entry<String, Integer> finalScoEntry :finalScore.entrySet()) { // on va stocker le nom et le score du meilleur joueur
@@ -592,6 +595,7 @@ public boolean getPair(Player player) {
     
     
     }
+
        
        
        
@@ -599,3 +603,4 @@ public boolean getPair(Player player) {
        
        
 }
+
