@@ -717,15 +717,14 @@ public void makeScopaTest(){
 }
 
 @Test
-public void playCardTest(){
-    LocalGameEngine l = new LocalGameEngine();
-    Player p = new Player("imane");
-    assertTrue(l.makeScopa(p));
 
+public void distribuateCardToPlayerTest(){
+    LocalGameEngine l= new LocalGameEngine();
+    Player p = new Player("sarah");
+    l.distribuateCardToPlayer(p);
+    assertEquals(p.getHand().size(), 3);
 
-    
 }
-
 
 }
 
