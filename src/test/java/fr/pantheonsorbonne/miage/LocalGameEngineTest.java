@@ -332,7 +332,14 @@ public class LocalGameEngineTest {
         assert(l.cardOnTheTable.contains(card1));
         assertFalse(p.getHand().contains(card1));
 
+    }
 
+    @Test
+    public void putACardOfSeptDeniersFalseTest(){
+        Player p = new Player("sarah");
+        LocalGameEngine l = new LocalGameEngine();
+        assertFalse(l.putACardOfSeptDeniers(p));
+    
 
     }
     @Test
@@ -362,7 +369,6 @@ public class LocalGameEngineTest {
         hand.add(card2);
         p.setHand(hand);
         assertFalse(l.putACardOfDeniers(p));
-
         assertTrue(p.getHand().contains(card2));
 
     }
@@ -631,11 +637,98 @@ public void displayFinalScoreTest(){
 
  }
 
+ @Test
+ public void rigourousTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    l.compareCountCard();
+    l.compareCountCardDeniers();
+    l.pointForSeptDeDeniers();
+    l.displayFinalScorel();
+    l.announceTheWinner();
 
 
+ }
+
+ @Test
+ public void haveTreeCardSameOnTheTableTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Card card1 = new Card (CardFigure.EPEE, CardValue.SEPT);
+    Card card2 = new Card (CardFigure.COUPE, CardValue.SEPT);
+    Card card3 = new Card (CardFigure.BATON, CardValue.SEPT);
+    Card card4 = new Card (CardFigure.BATON, CardValue.TROIS);
+    l.cardOnTheTable.add(card1);
+    l.cardOnTheTable.add(card2);
+    l.cardOnTheTable.add(card3);
+    l.cardOnTheTable.add(card4);
+    assertTrue(l.haveTreeCardSameOnTheTable());
+ }
+
+ @Test
+ public void falseHaveTreeCardSameOnTheTableTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Card card1 = new Card (CardFigure.EPEE, CardValue.SEPT);
+    Card card2 = new Card (CardFigure.COUPE, CardValue.SEPT);
+    Card card3 = new Card (CardFigure.BATON, CardValue.CAVALIER);
+    Card card4 = new Card (CardFigure.BATON, CardValue.TROIS);
+    l.cardOnTheTable.add(card1);
+    l.cardOnTheTable.add(card2);
+    l.cardOnTheTable.add(card3);
+    l.cardOnTheTable.add(card4);
+    assertFalse(l.haveTreeCardSameOnTheTable());
+ }
+
+ /**@Test
+ public void putACardOnTheTable(){
+    Player p = new Player("imane");
+    LocalGameEngine l = new LocalGameEngine();
+    Card card1 = new Card (CardFigure.DENIERS, CardValue.TROIS);
+    Card card2 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+    Card card3 = new Card (CardFigure.DENIERS, CardValue.SEPT);
+    List<Card> hand= new ArrayList<>();
+    hand.add(card1);
+    hand.add(card2);
+    hand.add(card3);
+    p.setHand(hand);
+    assertFalse(l.putAClassicCard(p));
+
+}
+*/
+
+@Test
+public void falseMakeScopaTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Player p = new Player("imane");
+    Card card1 = new Card (CardFigure.EPEE, CardValue.SEPT);
+    Card card2 = new Card (CardFigure.COUPE, CardValue.SEPT);
+    Card card3 = new Card (CardFigure.BATON, CardValue.CAVALIER);
+    l.cardOnTheTable.add(card1);
+    l.cardOnTheTable.add(card2);
+    l.cardOnTheTable.add(card3);
+    assertFalse(l.makeScopa(p));
+
+}
+
+@Test
+public void makeScopaTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Player p = new Player("imane");
+    assertTrue(l.makeScopa(p));
+
+}
+
+@Test
+public void playCardTest(){
+    LocalGameEngine l = new LocalGameEngine();
+    Player p = new Player("imane");
+    assertTrue(l.makeScopa(p));
+
+
+    
+}
 
 
 }
+
 
 
 
