@@ -22,22 +22,22 @@ public class LocalGameEngine {
     protected final Collection <Player> players= new ArrayList<>();
     Map<String,Integer> stockCountDeniers = new HashMap<>();
     Map<String,Integer> stockCountCard = new HashMap<>();
-
+    String lastPlayerWithPair="";
     
 
 
 public void play(){
 
     
-
-    // Objet qui va nous servir a utiliser les methodes de la classe playCard pour les joueurs
     Deck.createDeck();
     
     System.out.println("DEBUT DE LA PARTIE");
+    
     for(Player player : players){
         distribuateCardToPlayer(player);
         displayPlayerHand(player);
     }
+    
     do{
     putFourCardOnTheTable();
     }
@@ -45,68 +45,86 @@ public void play(){
     
     
 
-while (!Deck.deck.isEmpty()){
+    while (!Deck.deck.isEmpty()){
     
-    for( Player player : players){
+        for( Player player : players){
        
-        System.out.println("Main de "+ player.getName()+ ": " +player.getHand());
-        if (cardOnTheTable.isEmpty()){ // Après une scopa du joueur précédent, il faut poser une carte
-            putACardOnTheTable(player);
-           }
-       
-       
-        else if(getPair(player)){
-        System.out.println(player.getName() +" a fait une  paire. " );
-        if (cardOnTheTable.isEmpty()){
-            System.out.println(player.getName()+ " a fait une scopa!");
-            player.haveNewPoint();
-        }
-
-        }
-
-        else{
-        putACardOnTheTable(player);
+            displayPlayerHand(player);
+            playCard(player);
+            displayCardOnTheTable();
+            // On redonne une carte pour le tour d'après
+      
+            player.getHand().add(giveNewCard()); 
         }
     
-      
-       
-        System.out.println(player.getName()+ " a stocké " +player.getStoredCard());
-        System.out.println("point de scopa "+player.getFinalScore());   
-        System.out.println("Voici les cartes sur la table " +cardOnTheTable);
-      // On redonne une carte pour le tour d'après
-      
-      player.getHand().add(giveNewCard()); 
-        
-
-  
     }
+
+    // Maintenant , il y'a plus de carte dans la pioche, chaque joueur joue donc à tour de role jusqu'a qu'il n'est plus de carte
+    System.out.println("Plus de carte dans la pioche");
+
+
+
+    for(int i=0; i<Player.HAND_SIZE;i++){
+        for (Player player: players){
+            
+            displayPlayerHand(player);
+            playCard(player);
+            displayCardOnTheTable();
+        }
+
+    }
+
+    System.out.println("Le dernier joueur a avoir fait une paire est "+ lastPlayerWithPair);
+
+
+    // Il va récuperer les cartes sur la table
+    takeCardOnTheTable();
+
+    // Partie terminée , on procède au comptage et à la distribution des points
+    compareCountCard();
+    compareCountCardDeniers();
+    pointForSeptDeDeniers();
+    displayFinalScorel();
+    announceTheWinner();
     
+
+}
+    
+    
+   
+
+public void takeCardOnTheTable(){
+    if(!cardOnTheTable.isEmpty()){
+        for(Player player : players){
+            if (player.getName().equals(lastPlayerWithPair)){
+                for(Card card : cardOnTheTable){
+                    player.getStoredCard().add(card);
+                }
+            
+            }
+        }
+    }
 }
 
-// Maintenant , il y'a plus de carte dans la pioche, chaque joueur joue donc à tour de role jusqu'a qu'il n'est plus de carte
-System.out.println("Plus de carte dans la pioche");
 
 
-String lastPlayerWithPair="";
-for(int i=0; i<Player.HAND_SIZE;i++){
-    for (Player player: players){
+
+
+public void playCard(Player player){
     
-    
-        System.out.println("Main de "+ player.getName()+ ": " +player.getHand());
         if (cardOnTheTable.isEmpty()){ // Après une scopa du joueur précédent, il faut poser une carte
             putACardOnTheTable(player);
            }
        
-       
-       
-
        
        else if(getPair(player)){
         System.out.println(player.getName() +" a fait une  paire. " );
-         lastPlayerWithPair= player.getName();
-        if (cardOnTheTable.isEmpty()){
-            System.out.println(player.getName()+ " a fait une scopa!");
+        displayStorredCard(player);
+        lastPlayerWithPair= player.getName();
+        if (makeScopa(player)){
             player.haveNewPoint();
+            System.out.println("Point de scopa " + player.getFinalScore());
+
             
            
         }
@@ -116,52 +134,18 @@ for(int i=0; i<Player.HAND_SIZE;i++){
        else{
         putACardOnTheTable(player);
        }
-    
-       System.out.println("Carte stocké de " + player.getName() +player.getStoredCard());
-       System.out.println("Point de scopa " + player.getFinalScore());
-       System.out.println("Voici les cartes sur la table " +cardOnTheTable);
-}
-
-
-
 
 }
 
-System.out.println("Le dernier joueur a avoir fait une paire est "+ lastPlayerWithPair);
 
+public boolean makeScopa (Player player){
+    if (cardOnTheTable.isEmpty()){
+        System.out.println(player.getName()+ " a fait une scopa!");
+        return true;
 
-// Il va récuperer les cartes sur la table
-if(!cardOnTheTable.isEmpty()){
-    for(Player player : players){
-        if (player.getName().equals(lastPlayerWithPair)){
-            for(Card card : cardOnTheTable){
-                player.getStoredCard().add(card);
-            }
-        System.out.println(player.getName() + player.getStoredCard());
-        }
     }
+return false;
 }
-
- // Partie terminée , on procède au comptage et à la distribution des points
-compareCountCard();
-compareCountCardDeniers();
-pointForSeptDeDeniers();
-displayFinalScorel();
-announceTheWinner();
-    
-
-}
-    
-    
-   
-
-
-
-
-
-
-
-
 
 
 
@@ -175,13 +159,23 @@ public void distribuateCardToPlayer(Player joueur ){
         Card c = giveNewCard();
         joueur.getHand().add(c);
      }
-   }
+}
 
 
 public void displayPlayerHand(Player player){
        System.out.println(player.getName() + " a les cartes  " + player.getHand());
 
     }
+
+public void displayCardOnTheTable(){
+        System.out.println("Voici les cartes sur la table " +cardOnTheTable);
+ 
+} 
+
+public void displayStorredCard(Player player){
+        System.out.println("Carte stocké de " + player.getName() +player.getStoredCard());
+ 
+} 
 
 
 
@@ -603,4 +597,5 @@ public boolean getPair(Player player) {
        
        
 }
+
 
