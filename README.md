@@ -32,10 +32,10 @@ A la fin de la partie les points sont répartis de la manière suivante :
 
 Un exemple de jeu supportant le réseau
 
-* LocalGame qui lance le jeu
-* LocalGameEngine qui supporte les méthodes du jeu local
-* WarGameNetorkPlayer le joueur distant en cas de partie réseau
-* WarGameNetworkEngine la version du jeu supportant le réseau
+* LocalScopaGame qui lance le jeu
+* ScopaEngine qui supporte les méthodes du jeu local
+* ScopaGameNetorkPlayer le joueur distant en cas de partie réseau
+* ScopaGameNetworkEngine la version du jeu supportant le réseau
 
 
 # Protocole réseau
