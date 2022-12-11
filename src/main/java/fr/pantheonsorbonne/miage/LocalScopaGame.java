@@ -12,6 +12,10 @@ import java.util.Set;
 
 public class LocalScopaGame extends ScopaEngine{
 
+ 
+ /**
+  * Ensemble initialPlayers
+  */
 
 
 private final Set<String> initialPlayers;
