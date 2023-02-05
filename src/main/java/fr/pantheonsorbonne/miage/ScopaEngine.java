@@ -251,9 +251,9 @@ protected boolean havePairWithDeniers(Player player){
 
 
 protected boolean haveClassicPair(Player player){
-
+//pair is the not the only way to take cards from the table
  if (( cardOnTheTable.size() ) != 2){ // On ne fait une paire que si il n'ya pas deux cartes sur la table car sinon, on laisserait qu'une seule carte ce qui permettrait au joueur suivant de faire une scopa en cas de pair
-    
+    //fishy strategy!
     for(Card card1:player.getHand()){
 
         for (Card card2: cardOnTheTable){
